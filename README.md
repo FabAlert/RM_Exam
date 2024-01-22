@@ -42,6 +42,4 @@ $ rosrun rm_kuka_project controllo_forza
 ```
 
 ## Outline
-
-![Client terminal results](/Images_for_readme/terminale.png)  
-![Gazebo results](/Images_for_readme/final.png) 
+![Gazebo](/Images_for_readme/Execution.png) 
