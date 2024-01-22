@@ -2,6 +2,9 @@
 
 Simulation in a Gazebo environment in which Kuka LBR-Med 7 robot follows the desired trajectory through an admittance control.
 
+## Project_Presentation
+https://communitystudentiunina-my.sharepoint.com/:p:/g/personal/fabi_cuccaro_studenti_unina_it/EeQrlFDsqURNvIsM8caxOGEBC1VOW3kyP7o5GoV8LcPPhg?e=5a4qbE
+
 ## Getting Started (pre-requirements)
 
 - Ubuntu 20.04
