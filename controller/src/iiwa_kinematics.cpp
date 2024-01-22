@@ -209,7 +209,7 @@
         Df6(4,6) = sin(q(5))*(sin(q(3))*(cos(q(0))*sin(q(2)) + cos(q(1))*cos(q(2))*sin(q(0))) - cos(q(3))*sin(q(0))*sin(q(1))) + cos(q(5))*(cos(q(4))*(cos(q(3))*(cos(q(0))*sin(q(2)) + cos(q(1))*cos(q(2))*sin(q(0))) + sin(q(0))*sin(q(1))*sin(q(3))) + sin(q(4))*(cos(q(0))*cos(q(2)) - cos(q(1))*sin(q(0))*sin(q(2))));
         Df6(5,6) = cos(q(5))*(cos(q(4))*(cos(q(1))*sin(q(3)) - cos(q(2))*cos(q(3))*sin(q(1))) + sin(q(1))*sin(q(2))*sin(q(4))) - sin(q(5))*(cos(q(1))*cos(q(3)) + cos(q(2))*sin(q(1))*sin(q(3)));
  
-
+        // scegliere la misura di manipolabilità desiderata:
         //float w = (pow((q(0)/5.93),2) + pow((q(1)/4.185),2) + pow((q(2)/5.93),2) + pow((q(3)/4.185),2) + pow((q(4)/5.93),2) + pow((q(5)/4.185),2) + pow((q(6)/6.1),2))/14;
         float w = sqrt((J*J.transpose()).determinant());
         W(0) = w*(Df1*PseudoJ).trace();
@@ -230,7 +230,7 @@
         Matrix<float,3,3> Sed;
 
         Sed.setZero(3,3);
-        Sed(0,1) = -qd(3); Sed(0,2) = qd(2); Sed(1,0) = qd(3); Sed(1,2) = -qd(1); Sed(2,0) = -qd(2); Sed(2,1) = qd(1); // ho definito operatore antisimmetrico che porca troia è un casino
+        Sed(0,1) = -qd(3); Sed(0,2) = qd(2); Sed(1,0) = qd(3); Sed(1,2) = -qd(1); Sed(2,0) = -qd(2); Sed(2,1) = qd(1); // ho definito operatore antisimmetrico
         eo = qe(0)*qd.block(1,0,3,1) - qd(0)*qe.block(1,0,3,1) - Sed*qe.block(1,0,3,1); //formula siciliano 3.91 tipo errore orientamento per quaternioni
 
         return eo;
