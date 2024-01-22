@@ -53,11 +53,11 @@ int main(int argc, char** argv){
     A.block(6,0,6,6) = -K*MInv; A.block(6,6,6,6) = -D*MInv; A.block(0,6,6,6) = eye;
     B.block(6,0,6,6) = MInv; //aggiorno B;
 
-    ofstream DesiredPosFile;     DesiredPosFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/DesiredPosFile.txt", std::ofstream::out | std::ofstream::trunc);
-    ofstream DesiredVelFile;     DesiredVelFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/DesiredVelFile.txt", std::ofstream::out | std::ofstream::trunc);
-    ofstream CompliancePosFile;  CompliancePosFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/CompliancePosFile.txt", std::ofstream::out | std::ofstream::trunc);
-    ofstream ComplianceVelFile;  ComplianceVelFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/ComplianceVelFile.txt", std::ofstream::out | std::ofstream::trunc);
-    ofstream ForceFile;          ForceFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/ForceFile.txt", std::ofstream::out | std::ofstream::trunc);
+    //ofstream DesiredPosFile;     DesiredPosFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/DesiredPosFile.txt", std::ofstream::out | std::ofstream::trunc);
+    //ofstream DesiredVelFile;     DesiredVelFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/DesiredVelFile.txt", std::ofstream::out | std::ofstream::trunc);
+    //ofstream CompliancePosFile;  CompliancePosFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/CompliancePosFile.txt", std::ofstream::out | std::ofstream::trunc);
+    //ofstream ComplianceVelFile;  ComplianceVelFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/ComplianceVelFile.txt", std::ofstream::out | std::ofstream::trunc);
+    //ofstream ForceFile;          ForceFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/ForceFile.txt", std::ofstream::out | std::ofstream::trunc);
 
 
     /*Risolvo un sistema diff del secondo ordine spezzandolo in due del primo ordine
@@ -92,20 +92,20 @@ int main(int argc, char** argv){
     while(ros::ok()){
 
         SentMsg = Traj.GenTraj(t); //genero la traiettoria e le velocità desiderate
-        DesiredPosFile << SentMsg.col(0) << endl; 
-        DesiredVelFile << SentMsg.col(1) << endl;
+        //DesiredPosFile << SentMsg.col(0) << endl; 
+        //DesiredVelFile << SentMsg.col(1) << endl;
 
         //Genero la forza :Scegleire un tipo di profilo
         //ForceGen = Traj.GenSinForce(t,ForceFreq,ForceAxis,ForcePhase);
         ForceGen = Traj.GenLinForce(ForceAxis);
 
-        ForceFile << ForceGen << endl;
+        //ForceFile << ForceGen << endl;
         Z = A*Z0 + B*ForceGen; //1st ODE 
         Z0 = Z0 + Z*Dt;       //Aggiorno stato precedente
         CompliancePos = SentMsg.col(0)-Z0.block(0,0,6,1);  //ottengo nuova pos
-        CompliancePosFile << CompliancePos << endl;
+        //CompliancePosFile << CompliancePos << endl;
         ComplianceVel = SentMsg.col(1)-Z0.block(6,0,6,1);  //ottengo nuova vel
-        ComplianceVelFile << ComplianceVel << endl;
+        //ComplianceVelFile << ComplianceVel << endl;
         robot.set_desired_pose(CompliancePos);
         robot.set_desired_vel(ComplianceVel);
         t+=0.01;
@@ -113,9 +113,9 @@ int main(int argc, char** argv){
         r.sleep();
     }
 
-    DesiredPosFile.close(); DesiredVelFile.close();
-    CompliancePosFile.close(); ComplianceVelFile.close();   
-    ForceFile.close();
+    //DesiredPosFile.close(); DesiredVelFile.close();
+    //CompliancePosFile.close(); ComplianceVelFile.close();   
+    //ForceFile.close();
 
     return 0;
 }

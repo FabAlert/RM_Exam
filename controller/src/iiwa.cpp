@@ -49,10 +49,10 @@ namespace iiwa{
         Matrix<float,6,1> error;    error.setZero(6,1);
         Matrix<float,6,7> J;        J.setZero(6,7);
         Matrix<float,4,1> Qd;       Qd.setZero(4,1);
-        ofstream ErrorFile;         ErrorFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/ErrorFile.txt", std::ofstream::out | std::ofstream::trunc);
-        ofstream QdFile;            QdFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/QdFile.txt", std::ofstream::out | std::ofstream::trunc);
-        ofstream QFile;             QFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/QFile.txt", std::ofstream::out | std::ofstream::trunc);
-        ofstream ActualPoseFile;    ActualPoseFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/ActualPoseFile.txt", std::ofstream::out | std::ofstream::trunc);
+        //ofstream ErrorFile;         ErrorFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/ErrorFile.txt", std::ofstream::out | std::ofstream::trunc);
+        //ofstream QdFile;            QdFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/QdFile.txt", std::ofstream::out | std::ofstream::trunc);
+        //ofstream QFile;             QFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/QFile.txt", std::ofstream::out | std::ofstream::trunc);
+       //ofstream ActualPoseFile;    ActualPoseFile.open("/home/fabio/ros_ws/src/controller/Traiettoria/ActualPoseFile.txt", std::ofstream::out | std::ofstream::trunc);
 
         float Dt = .01;
 
@@ -62,7 +62,7 @@ namespace iiwa{
             Qe = kin.MatToQuat(Te.block(0,0,3,3));
             RPY = kin.Quat2RPY(Qe);
             actual_pose << Te(0,3),Te(1,3), Te(2,3), RPY(0), RPY(1), RPY(2);
-            ActualPoseFile << actual_pose << endl;
+            //ActualPoseFile << actual_pose << endl;
 
             //desired angle computation
             Rot_d = kin.RPY2Mat(desired_pose.block(3,0,3,1));
@@ -71,7 +71,7 @@ namespace iiwa{
             //error computation
             error.block(0,0,3,1) = desired_pose.block(0,0,3,1) - Te.block(0,3,3,1);
             error.block(3,0,3,1) = kin.QuatErr(Qd,Qe);
-            ErrorFile << error << endl;
+            //ErrorFile << error << endl;
             
 
             //Jacobian and Manipulability measurement
@@ -83,13 +83,13 @@ namespace iiwa{
             qd_dot = PseudoJ*(desired_vel+K*error) + (In-PseudoJ*J)*q0_dot;  //task secondario per redundancy
             //qd_dot = PseudoJ*(desired_vel+K*error); //senza task secondario per ridondanza
             qd = qd + qd_dot*Dt;
-            QdFile << qd << endl; QFile << q <<endl;
+            //QdFile << qd << endl; QFile << q <<endl;
             r.sleep();
             ros::spinOnce();
         }
         
-        ErrorFile.close(); ActualPoseFile.close();
-        QdFile.close(); QFile.close();    
+        //ErrorFile.close(); ActualPoseFile.close();
+        //QdFile.close(); QFile.close();    
         
     }
 
